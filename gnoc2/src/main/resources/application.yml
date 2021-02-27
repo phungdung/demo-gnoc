@@ -1,0 +1,61 @@
+servers:
+  port: 8111
+  session:
+    timeout: 86400
+eureka:
+  instance:
+    prefer-ip-addres: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8111/eureka/
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: -1
+  config:
+    activate:
+      on-profile: staging
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:gnoc
+    username: OPEN_PM
+    password: OPEN_PM
+    driver-class-name: oracle.jdbc.OracleDriver
+    hikari:
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 40
+      minimum-idle: 5
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle12cDialect
+        show_sql: true
+        current_session_context_class=org: springframework.orm.hibernate5.SpringSessionContext
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+        loggerLevel: full
+bael:
+  property: stagingValue
+logging:
+  file:
+    name: service.log
+    path: ./log/service
+opentracing:
+  jaeger:
+    udp-sender:
+      host: localhost
+      port: 6831
+    log-spans: false
+    probabilistic-sapler:
+      sapling-rate: 0.01
+application:
+  upload:
+    folder: ./data/upload
+  temp:
+    folder: ./data/temp
